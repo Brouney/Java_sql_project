@@ -1,0 +1,148 @@
+
+-pracownik logowanie
+"SELECT * FROM pracownik"
+-administrator
+"INSERT INTO pracownik(  id_uprawnienia, imie, nazwisko, telefon, email)"
+				                + "VALUES(?,?,?,?,?)"
+-wydawanie towaru - w kolejnosci jak jest w programie
+"SELECT * FROM Firma"
+"SELECT * FROM Klient WHERE id_firma_klient = "+text_idfirmy.getText()
+"INSERT INTO zamowienie(  wydanie_lub_przyjecie_towaru,id_pracownik_fk,id_firma_zam,id_klient_fk,data_realizacji,termin_platnosci)"
+				                + "VALUES(?,?,?,?,?,?) "
+"SELECT max(id_zamowienie) from zamowienie "
+"SELECT p.id_prod,p.nazwa,p.opis,p.cena,m.ilosc FROM produkt p 
+JOIN magazyn m ON p.id_prod = m.id_prod_m JOIN kategorie k ON k.id_kat = p.id_kat_pr WHERE k.opis = ?"
+"INSERT INTO kategorie(  opis)"+ "VALUES(?)"
+"SELECT * FROM produkt WHERE nazwa = '"+text_nazwa.getText() +"' "
+"SELECT id_kat from kategorie where opis =  '"+text_kategoria.getText()+"' "
+"INSERT INTO produkt( id_kat_pr,nazwa, opis,cena)"
+				                + "VALUES(?,?,?,?)"
+"SELECT id_prod FROM produkt WHERE nazwa = '"+text_nazwa.getText()+"' AND id_kat_pr = "+KATEGORIA
+"INSERT INTO magazyn (id_prod_m,ilosc,miejsce)"+"VALUES(?,?,?)"
+"INSERT INTO szcz_zam( id_zamowienie_szcz,id_prod_szcz,ilosc)"
+				                + "VALUES(?,?,?)"
+"SELECT sz.id_szcz,p.nazwa,p.cena,sz.ilosc,SUM(p.cena*sz.ilosc) from produkt p 
+join szcz_zam sz ON p.id_prod = sz.id_prod_szcz AND sz.id_zamowienie_szcz = "+idzzamowienia+" 
+group by p.nazwa,p.cena,sz.ilosc,sz.id_szcz"
+"SELECT * FROM kategorie "
+	wypisanie faktury:
+"SELECT sz.id_prod_szcz,sz.ilosc from produkt p join szcz_zam sz ON p.id_prod = sz.id_prod_szcz " + 
+							" WHERE sz.id_zamowienie_szcz = "+idzzamowienia+"  group by sz.ilosc,sz.id_prod_szcz;"
+	operacje na liczbach:
+	"SELECT m.ilosc,m.id_prod_m from magazyn m WHERE NOT m.miejsce = 'nie ma w asortymencie' AND NOT m.miejsce =  'nie przydzielono miejsca' AND m.id_prod_m = "+rs.getInt(1)
+		operacje na liczbach
+		"INSERT INTO wydanie( id_zamowienie_wyd,id_prod_wyd,ilosc,id_faktura_wydanie)"
+						                + "VALUES(?,?,?,NULL)"
+
+"SELECT SUM(p.cena*sz.ilosc) from produkt p join wydanie sz ON p.id_prod = sz.id_prod_wyd AND sz.id_zamowienie_wyd = "+idzzamowienia
+"INSERT INTO faktura_wyd( data_wyst_faktury,kwota_netto,kwota_brutto,uwagi)"
+
+	wstawianie elementów do wydania
+"SELECT id_wyd from wydanie where id_zamowienie_wyd = "+idzzamowienia +" and id_faktura_wydanie IS NULL"
+	"UPDATE  wydanie SET  id_faktura_wydanie = " +faktury +" WHERE id_wyd = "+rsss.getInt(1)
+
+"SELECT id_prod_wyd,ilosc from wydanie where  id_faktura_wydanie = " +faktury
+	"SELECT ilosc,miejsce,id_magazyn from magazyn where id_prod_m ="+rsssn.getInt(1)+" AND  NOT miejsce ='nie przydzielono miejsca'"
+		"UPDATE  magazyn SET  ilosc = " +updateilosc +" WHERE id_prod_m = "+rsssn.getInt(1)+" AND  NOT miejsce ='nie przydzielono miejsca' AND id_magazyn = "+rsssnn.getInt("id_magazyn")
+
+"DELETE FROM szcz_zam WHERE id_szcz = ?"
+"SELECT p.id_prod,p.nazwa,p.opis,p.cena,m.ilosc FROM produkt p JOIN magazyn m ON p.id_prod = m.id_prod_m JOIN kategorie k ON k.id_kat = p.id_kat_pr  WHERE k.opis = ?"
+
+-okno faktura
+"SELECT max(id_faktura_przyj) from faktura_przyj"
+"SELECT pr.id_faktura_przyjecie, p.id_prod,p.nazwa,p.opis,p.cena,pr.ilosc,sum(p.cena*pr.ilosc) FROM produkt p " + 
+								"JOIN kategorie k ON k.id_kat = p.id_kat_pr " + 
+								"JOIN przyjecie pr ON pr.id_prod_przy = p.id_prod where id_faktura_przyjecie ="+maksymalna +" GROUP BY  pr.id_faktura_przyjecie,p.id_prod,p.nazwa,p.opis,p.cena,pr.ilosc  "
+"SELECT * from faktura_przyj where id_faktura_przyj = "+maksymalna 
+"SELECT f.nazwa,f.adres,f.nip from faktura_przyj fw "
+								+ "JOIN przyjecie p ON p.id_faktura_przyjecie = fw.id_faktura_przyj "
+								+ "JOIN zamowienie z ON z.id_zamowienie = p.id_zamowienie_prz "
+								+ "JOIN firma f ON f.id_firma = z.id_firma_zam where fw.id_faktura_przyj = "+maksymalna
+"UPDATE  faktura_przyj SET uwagi= '"+textuwagi.getText()+"' where id_faktura_przyj = "+maxxxx
+
+-Dodanie firmy do bazy
+"INSERT INTO firma(  nazwa, adres, NIP, mail,telefon)"
+				                + "VALUES(?,?,?,?,?)"
+
+-Dodanie klienta do bazy
+"INSERT INTO Klient(   imie, nazwisko, telefon, email,id_firma_klient)"
+				                + "VALUES(?,?,?,?,?)"
+
+-Obs³uga magazynu
+"SELECT * FROM kategorie "
+"SELECT p.id_prod,m.id_magazyn,p.nazwa,p.opis,p.cena,m.ilosc,m.miejsce FROM produkt p JOIN magazyn m ON p.id_prod = m.id_prod_m JOIN kategorie k ON k.id_kat = p.id_kat_pr WHERE k.opis = ?"
+"UPDATE  magazyn SET  miejsce = '" +text_miejsce.getText() +"' WHERE id_prod_m = "+ID +" and id_magazyn = "+idmagazyn
+-sortowanie z widokami
+"SELECT *from sortnazwa"
+"SELECT *from sortmiejsce"
+"SELECT *from sortniep"
+
+"SELECT p.id_prod,m.id_magazyn,p.nazwa,p.opis,p.cena,m.ilosc,m.miejsce FROM produkt p JOIN magazyn m ON p.id_prod = m.id_prod_m JOIN kategorie k ON k.id_kat = p.id_kat_pr WHERE k.opis = ?"
+"DELETE FROM magazyn WHERE ilosc =0"
+
+-Przyjêcie towaru
+"SELECT * FROM Firma"
+"SELECT * FROM Klient WHERE id_firma_klient = "+text_idfirmy.getText()
+"INSERT INTO zamowienie(  wydanie_lub_przyjecie_towaru,id_pracownik_fk,id_firma_zam,id_klient_fk,data_realizacji,termin_platnosci)"
+				                + "VALUES(?,?,?,?,?,?) "
+"SELECT max(id_zamowienie) from zamowienie "
+"SELECT p.id_prod,p.nazwa,p.opis,p.cena,m.ilosc FROM produkt p 
+JOIN magazyn m ON p.id_prod = m.id_prod_m JOIN kategorie k ON k.id_kat = p.id_kat_pr WHERE k.opis = ?"
+"INSERT INTO kategorie(  opis)"+ "VALUES(?)"
+"SELECT * FROM produkt WHERE nazwa = '"+text_nazwa.getText() +"' "
+"SELECT id_kat from kategorie where opis =  '"+text_kategoria.getText()+"' "
+"INSERT INTO produkt( id_kat_pr,nazwa, opis,cena)"
+				                + "VALUES(?,?,?,?)"
+"SELECT id_prod FROM produkt WHERE nazwa = '"+text_nazwa.getText()+"' AND id_kat_pr = "+KATEGORIA
+"INSERT INTO magazyn (id_prod_m,ilosc,miejsce)"+"VALUES(?,?,?)"
+"INSERT INTO szcz_zam( id_zamowienie_szcz,id_prod_szcz,ilosc)"
+				                + "VALUES(?,?,?)"
+"SELECT sz.id_szcz,p.nazwa,p.cena,sz.ilosc,SUM(p.cena*sz.ilosc) from produkt p 
+join szcz_zam sz ON p.id_prod = sz.id_prod_szcz AND sz.id_zamowienie_szcz = "+idzzamowienia+" 
+group by p.nazwa,p.cena,sz.ilosc,sz.id_szcz"
+"SELECT * FROM kategorie "
+
+	wypisanie faktury:
+"SELECT sz.id_prod_szcz,sz.ilosc from produkt p join szcz_zam sz ON p.id_prod = sz.id_prod_szcz AND sz.id_zamowienie_szcz = "+idzzamowienia+" group by sz.ilosc,sz.id_prod_szcz"
+	po ka¿dym rekordzie:
+	"INSERT INTO przyjecie( id_zamowienie_prz,id_prod_przy,ilosc,id_faktura_przyjecie)"
+							                + "VALUES(?,?,?,NULL)"
+
+"SELECT SUM(p.cena*sz.ilosc) from produkt p join szcz_zam sz ON p.id_prod = sz.id_prod_szcz AND sz.id_zamowienie_szcz = "+idzzamowienia
+"INSERT INTO faktura_przyj( data_wyst_faktury,kwota_netto,kwota_brutto,uwagi)"
+				                + "VALUES(?,?,?,?)"
+
+"SELECT id_przy from przyjecie where id_zamowienie_prz = "+idzzamowienia +" and id_faktura_przyjecie IS NULL"
+	po ka¿dym rekordzie:
+	"UPDATE  przyjecie SET  id_faktura_przyjecie = " +faktury +" WHERE id_przy = "+rsss.getInt(1)
+
+
+"SELECT id_prod_przy,ilosc from przyjecie where  id_faktura_przyjecie = " +faktury
+	po ka¿dym rekordzie:
+	"SELECT miejsce,ilosc from magazyn where id_prod_m ="+rsssn.getInt(1)+" AND miejsce = 'nie przydzielono miejsca'"
+		Je¿eli jest, to:
+		"UPDATE  magazyn SET  ilosc = " +updateilosc +" WHERE id_prod_m = "+rsssn.getInt(1)+" AND miejsce ='nie przydzielono miejsca'"
+		else:
+		"INSERT INTO magazyn (id_prod_m,ilosc,miejsce)"+"VALUES(?,?,?)"
+
+"DELETE FROM szcz_zam WHERE id_szcz = ?"
+"SELECT p.id_prod,p.nazwa,p.opis,p.cena,m.ilosc FROM produkt p JOIN magazyn m ON p.id_prod = m.id_prod_m JOIN kategorie k ON k.id_kat = p.id_kat_pr WHERE k.opis = ?"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,9 @@
+INSERT INTO Uprawnienia(id_uprawnienia,opis)
+VALUES (1,'administrator'),
+(2,'pracownik');
+
+INSERT INTO Pracownik(id_uprawnienia,imie,nazwisko,telefon,email)
+VALUES (1,'Jan','Kowalski','111222333','jan@wp.pl'),
+(2,'Marek','Mostowiak','222333444','Marek@wp.pl');
+
+

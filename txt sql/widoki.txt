@@ -1,0 +1,30 @@
+CREATE OR REPLACE VIEW fakturkaprzyj
+AS
+SELECT pr.id_faktura_przyjecie, p.id_prod,p.nazwa,p.opis,p.cena,pr.ilosc,sum(p.cena*pr.ilosc) FROM produkt p 
+JOIN kategorie k ON k.id_kat = p.id_kat_pr
+JOIN przyjecie pr ON pr.id_prod_przy = p.id_prod GROUP BY  pr.id_faktura_przyjecie,p.id_prod,p.nazwa,p.opis,p.cena,pr.ilosc ;
+
+
+CREATE OR REPLACE VIEW sortnazwa
+AS
+SELECT p.id_prod,m.id_magazyn,p.nazwa,p.opis,p.cena,m.ilosc,m.miejsce FROM produkt p 
+JOIN magazyn m ON p.id_prod = m.id_prod_m 
+JOIN kategorie k ON k.id_kat = p.id_kat_pr GROUP BY p.nazwa,p.id_prod,p.opis,p.cena,m.ilosc,m.miejsce,m.id_magazyn ORDER BY p.nazwa;
+
+CREATE OR REPLACE VIEW sortmiejsce
+AS
+SELECT p.id_prod,m.id_magazyn,p.nazwa,p.opis,p.cena,m.ilosc,m.miejsce FROM produkt p 
+JOIN magazyn m ON p.id_prod = m.id_prod_m 
+JOIN kategorie k ON k.id_kat = p.id_kat_pr GROUP BY m.miejsce,p.nazwa,p.id_prod,p.opis,p.cena,m.ilosc,m.id_magazyn ORDER BY m.miejsce;
+
+CREATE OR REPLACE VIEW sortniep
+AS
+SELECT p.id_prod,m.id_magazyn,p.nazwa,p.opis,p.cena,m.ilosc,m.miejsce FROM produkt p 
+JOIN magazyn m ON p.id_prod = m.id_prod_m 
+JOIN kategorie k ON k.id_kat = p.id_kat_pr WHERE m.miejsce ='nie przydzielono miejsca' GROUP BY m.miejsce,p.nazwa,p.id_prod,p.opis,p.cena,m.ilosc,m.id_magazyn ORDER BY p.nazwa ;
+
+
+
+
+
+

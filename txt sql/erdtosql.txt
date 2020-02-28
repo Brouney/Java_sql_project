@@ -1,0 +1,280 @@
+
+CREATE SEQUENCE projekt_baza.faktura_przyj_id_faktura_przyj_seq;
+
+CREATE TABLE projekt_baza.faktura_przyj (
+                id_faktura_przyj INTEGER NOT NULL DEFAULT nextval('projekt_baza.faktura_przyj_id_faktura_przyj_seq'),
+                data_wyst_faktury DATE NOT NULL,
+                Kwota_netto DOUBLE PRECISION NOT NULL,
+                Kwota_brutto DOUBLE PRECISION NOT NULL,
+                uwagi VARCHAR,
+                CONSTRAINT id_faktura_przyj PRIMARY KEY (id_faktura_przyj)
+);
+
+
+ALTER SEQUENCE projekt_baza.faktura_przyj_id_faktura_przyj_seq OWNED BY projekt_baza.faktura_przyj.id_faktura_przyj;
+
+CREATE SEQUENCE projekt_baza.faktura_wyd_id_faktura_wyd_seq;
+
+CREATE TABLE projekt_baza.faktura_wyd (
+                id_faktura_wyd INTEGER NOT NULL DEFAULT nextval('projekt_baza.faktura_wyd_id_faktura_wyd_seq'),
+                data_wyst_faktury DATE NOT NULL,
+                Kwota_netto DOUBLE PRECISION NOT NULL,
+                Kwota_brutto DOUBLE PRECISION NOT NULL,
+                uwagi VARCHAR,
+                CONSTRAINT id_faktura_wyd PRIMARY KEY (id_faktura_wyd)
+);
+
+
+ALTER SEQUENCE projekt_baza.faktura_wyd_id_faktura_wyd_seq OWNED BY projekt_baza.faktura_wyd.id_faktura_wyd;
+
+CREATE SEQUENCE projekt_baza.kategorie_id_kat_seq;
+
+CREATE TABLE projekt_baza.Kategorie (
+                id_kat INTEGER NOT NULL DEFAULT nextval('projekt_baza.kategorie_id_kat_seq'),
+                opis VARCHAR NOT NULL,
+                CONSTRAINT id_kat PRIMARY KEY (id_kat)
+);
+
+
+ALTER SEQUENCE projekt_baza.kategorie_id_kat_seq OWNED BY projekt_baza.Kategorie.id_kat;
+
+CREATE SEQUENCE projekt_baza.produkt_id_prod_seq;
+
+CREATE TABLE projekt_baza.Produkt (
+                id_prod INTEGER NOT NULL DEFAULT nextval('projekt_baza.produkt_id_prod_seq'),
+                id_kat_pr INTEGER NOT NULL,
+                nazwa VARCHAR NOT NULL,
+                opis VARCHAR,
+                cena DOUBLE PRECISION NOT NULL,
+                CONSTRAINT id_prod PRIMARY KEY (id_prod)
+);
+
+
+ALTER SEQUENCE projekt_baza.produkt_id_prod_seq OWNED BY projekt_baza.Produkt.id_prod;
+
+CREATE SEQUENCE projekt_baza.magazyn_id_magazyn_seq;
+
+CREATE TABLE projekt_baza.magazyn (
+                id_magazyn INTEGER NOT NULL DEFAULT nextval('projekt_baza.magazyn_id_magazyn_seq'),
+                id_prod_m INTEGER NOT NULL,
+                ilosc INTEGER,
+                miejsce VARCHAR,
+                CONSTRAINT id_magazyn PRIMARY KEY (id_magazyn)
+);
+
+
+ALTER SEQUENCE projekt_baza.magazyn_id_magazyn_seq OWNED BY projekt_baza.magazyn.id_magazyn;
+
+CREATE SEQUENCE projekt_baza.firma_id_firma_seq;
+
+CREATE TABLE projekt_baza.Firma (
+                id_firma INTEGER NOT NULL DEFAULT nextval('projekt_baza.firma_id_firma_seq'),
+                nazwa VARCHAR NOT NULL,
+                adres VARCHAR NOT NULL,
+                NIP VARCHAR NOT NULL,
+                mail VARCHAR NOT NULL,
+                telefon VARCHAR NOT NULL,
+                CONSTRAINT id_firma PRIMARY KEY (id_firma)
+);
+
+
+ALTER SEQUENCE projekt_baza.firma_id_firma_seq OWNED BY projekt_baza.Firma.id_firma;
+
+CREATE SEQUENCE projekt_baza.klient_id_klient_seq;
+
+CREATE TABLE projekt_baza.Klient (
+                id_klient INTEGER NOT NULL DEFAULT nextval('projekt_baza.klient_id_klient_seq'),
+                imie VARCHAR NOT NULL,
+                nazwisko VARCHAR NOT NULL,
+                telefon VARCHAR NOT NULL,
+                email VARCHAR NOT NULL,
+                id_firma_klient INTEGER NOT NULL,
+                CONSTRAINT id_klient PRIMARY KEY (id_klient)
+);
+
+
+ALTER SEQUENCE projekt_baza.klient_id_klient_seq OWNED BY projekt_baza.Klient.id_klient;
+
+CREATE TABLE projekt_baza.Uprawnienia (
+                id_uprawnienia INTEGER NOT NULL,
+                opis VARCHAR,
+                CONSTRAINT id_uprawnienia PRIMARY KEY (id_uprawnienia)
+);
+
+
+CREATE SEQUENCE projekt_baza.pracownik_id_pracownik_seq;
+
+CREATE TABLE projekt_baza.Pracownik (
+                id_pracownik INTEGER NOT NULL DEFAULT nextval('projekt_baza.pracownik_id_pracownik_seq'),
+                id_uprawnienia INTEGER NOT NULL,
+                imie VARCHAR NOT NULL,
+                nazwisko VARCHAR NOT NULL,
+                telefon VARCHAR NOT NULL,
+                email VARCHAR NOT NULL,
+                CONSTRAINT id_pracownik PRIMARY KEY (id_pracownik)
+);
+
+
+ALTER SEQUENCE projekt_baza.pracownik_id_pracownik_seq OWNED BY projekt_baza.Pracownik.id_pracownik;
+
+CREATE SEQUENCE projekt_baza.zamowienie_id_zamowienie_seq;
+
+CREATE TABLE projekt_baza.Zamowienie (
+                id_zamowienie INTEGER NOT NULL DEFAULT nextval('projekt_baza.zamowienie_id_zamowienie_seq'),
+                wydanie_lub_przyjecie_towaru VARCHAR NOT NULL,
+                id_pracownik_fk INTEGER NOT NULL,
+                id_firma_zam INTEGER NOT NULL,
+                id_klient_fk INTEGER NOT NULL,
+                data_realizacji DATE NOT NULL,
+                termin_platnosci DATE NOT NULL,
+                CONSTRAINT id_zamowienie PRIMARY KEY (id_zamowienie)
+);
+
+
+ALTER SEQUENCE projekt_baza.zamowienie_id_zamowienie_seq OWNED BY projekt_baza.Zamowienie.id_zamowienie;
+
+CREATE SEQUENCE projekt_baza.przyjecie_id_przy_seq;
+
+CREATE TABLE projekt_baza.Przyjecie (
+                id_przy INTEGER NOT NULL DEFAULT nextval('projekt_baza.przyjecie_id_przy_seq'),
+                id_zamowienie_prz INTEGER NOT NULL,
+                id_prod_przy INTEGER NOT NULL,
+                ilosc INTEGER NOT NULL,
+                id_faktura_przyjecie INTEGER,
+                CONSTRAINT id_przy PRIMARY KEY (id_przy)
+);
+
+
+ALTER SEQUENCE projekt_baza.przyjecie_id_przy_seq OWNED BY projekt_baza.Przyjecie.id_przy;
+
+CREATE SEQUENCE projekt_baza.wydanie_id_wyd_seq;
+
+CREATE TABLE projekt_baza.Wydanie (
+                id_wyd INTEGER NOT NULL DEFAULT nextval('projekt_baza.wydanie_id_wyd_seq'),
+                id_zamowienie_wyd INTEGER NOT NULL,
+                id_prod_wyd INTEGER NOT NULL,
+                ilosc INTEGER NOT NULL,
+                id_faktura_wydanie INTEGER,
+                CONSTRAINT id_wyd PRIMARY KEY (id_wyd)
+);
+
+
+ALTER SEQUENCE projekt_baza.wydanie_id_wyd_seq OWNED BY projekt_baza.Wydanie.id_wyd;
+
+CREATE SEQUENCE projekt_baza.szcz_zam_id_szcz_seq;
+
+CREATE TABLE projekt_baza.Szcz_Zam (
+                id_szcz INTEGER NOT NULL DEFAULT nextval('projekt_baza.szcz_zam_id_szcz_seq'),
+                id_zamowienie_szcz INTEGER NOT NULL,
+                id_prod_szcz INTEGER NOT NULL,
+                ilosc INTEGER NOT NULL,
+                CONSTRAINT id_szcz PRIMARY KEY (id_szcz)
+);
+
+
+ALTER SEQUENCE projekt_baza.szcz_zam_id_szcz_seq OWNED BY projekt_baza.Szcz_Zam.id_szcz;
+
+ALTER TABLE projekt_baza.Przyjecie ADD CONSTRAINT faktura_przyj_przyjecie_fk
+FOREIGN KEY (id_faktura_przyjecie)
+REFERENCES projekt_baza.faktura_przyj (id_faktura_przyj)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE projekt_baza.Wydanie ADD CONSTRAINT faktura_wyd_wydanie_fk
+FOREIGN KEY (id_faktura_wydanie)
+REFERENCES projekt_baza.faktura_wyd (id_faktura_wyd)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE projekt_baza.Produkt ADD CONSTRAINT kategorie_produkt_fk
+FOREIGN KEY (id_kat_pr)
+REFERENCES projekt_baza.Kategorie (id_kat)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE projekt_baza.magazyn ADD CONSTRAINT produkt_magazyn_fk
+FOREIGN KEY (id_prod_m)
+REFERENCES projekt_baza.Produkt (id_prod)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE projekt_baza.Szcz_Zam ADD CONSTRAINT produkt_szcz_zam_fk
+FOREIGN KEY (id_prod_szcz)
+REFERENCES projekt_baza.Produkt (id_prod)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE projekt_baza.Przyjecie ADD CONSTRAINT produkt_przyjecie_fk
+FOREIGN KEY (id_prod_przy)
+REFERENCES projekt_baza.Produkt (id_prod)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE projekt_baza.Wydanie ADD CONSTRAINT produkt_wydanie_fk
+FOREIGN KEY (id_prod_wyd)
+REFERENCES projekt_baza.Produkt (id_prod)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE projekt_baza.Klient ADD CONSTRAINT firma_klient_fk
+FOREIGN KEY (id_firma_klient)
+REFERENCES projekt_baza.Firma (id_firma)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE projekt_baza.Zamowienie ADD CONSTRAINT firma_zamowienie_fk
+FOREIGN KEY (id_firma_zam)
+REFERENCES projekt_baza.Firma (id_firma)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE projekt_baza.Zamowienie ADD CONSTRAINT klient_zamowienie_fk
+FOREIGN KEY (id_klient_fk)
+REFERENCES projekt_baza.Klient (id_klient)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE projekt_baza.Pracownik ADD CONSTRAINT uprawnienia_pracownik_fk
+FOREIGN KEY (id_uprawnienia)
+REFERENCES projekt_baza.Uprawnienia (id_uprawnienia)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE projekt_baza.Zamowienie ADD CONSTRAINT pracownik_zamowienie_fk
+FOREIGN KEY (id_pracownik_fk)
+REFERENCES projekt_baza.Pracownik (id_pracownik)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE projekt_baza.Szcz_Zam ADD CONSTRAINT zamowienie_szcz_zam_fk
+FOREIGN KEY (id_zamowienie_szcz)
+REFERENCES projekt_baza.Zamowienie (id_zamowienie)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE projekt_baza.Wydanie ADD CONSTRAINT zamowienie_wydanie_fk
+FOREIGN KEY (id_zamowienie_wyd)
+REFERENCES projekt_baza.Zamowienie (id_zamowienie)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE projekt_baza.Przyjecie ADD CONSTRAINT zamowienie_przyjecie_fk
+FOREIGN KEY (id_zamowienie_prz)
+REFERENCES projekt_baza.Zamowienie (id_zamowienie)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
