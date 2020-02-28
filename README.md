@@ -1,4 +1,4 @@
-# Java sql project magazynu z wykorzystaniem Swingu.
+# Projekt magazynu
 Projekt był kompilowalny aplikacją Eclipse.
 W folderze projekt.7z/toprojekt znajdują się biblioteki, które były użyte w projekcie.
 Chcąc ręcznie  uruchomić program, należy odpalic plik login_sw.java w folderze src. Jest to okno do logowania.
